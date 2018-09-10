@@ -16,7 +16,6 @@ import java.util.Map;
  * date : 2017/5/9
  */
 public class MobileParser {
-
     public static Map<String, Map<String, String>> mapForFile(InputStream inputStream) throws IOException {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"))) {
             Map<String, Map<String, String>> mapForfile = Maps.newHashMap();
@@ -34,19 +33,5 @@ public class MobileParser {
             }
             return mapForfile;
         }
-    }
-
-    public static float getScreenSize(String brand, String family) {
-        if (family.equalsIgnoreCase("iPhone")) {
-            return 0;
-        }
-        Map<String, Map<String, String>> mobileParser = Parser.mobileParser;
-        if (mobileParser.containsKey(brand.toUpperCase())) {
-            Map<String, String> stringStringMap = mobileParser.get(brand.toUpperCase());
-            if (stringStringMap.containsKey(family.toUpperCase())) {
-                return Float.parseFloat(stringStringMap.get(family.toUpperCase()));
-            }
-        }
-        return 0;
     }
 }

@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.tiger.useragent.Constant.DEFAULT_VALUE;
 
@@ -26,9 +24,6 @@ public class Parser {
     private DeviceParser deviceParser;
     private DeviceMap deviceMap;
 
-    private final static Pattern pattern = Pattern.compile("\\.net( clr | client )?(?<ver>\\d(\\.\\d)?)(\\.\\d+)*[ce;$) ]", Pattern.CASE_INSENSITIVE);
-    private final static Pattern netTypePattern =Pattern.compile("\\W(WIFI|5G|4G|3G|2G)\\W*",Pattern.CASE_INSENSITIVE);
-    private final static Pattern deviceIdPattern = Pattern.compile("[\\s&;\"](deviceid|deviceId|sdk_guid|GUID|guid|Id|ID|id|udid|UDID)[\" /:=]+([\\w-]+)",Pattern.CASE_INSENSITIVE);
     public static Map<String, Map<String, String>> mobileParser;
 
     public Parser() throws IOException {
@@ -80,54 +75,19 @@ public class Parser {
 
         Device device = parseDevice(agentString);
         if (device.deviceType.equals(DeviceType.Spider)) {
-            return buildUserAgentInfo(Os.DEFAULT_OS, Browser.DEFAULT_BROWSER, device,DEFAULT_VALUE,DEFAULT_VALUE);
+            return buildUserAgentInfo(Os.DEFAULT_OS, Browser.DEFAULT_BROWSER, device);
         }
         Os os = parseOS(agentString);
         Browser browser = parseBrowser(agentString);
-//        String dotNet = parseDotNet(agentString);
-        String netType = parseNetType(agentString);
-        String deviceId = parseDeviceId(agentString);
         if (os == null) {
             os = Os.DEFAULT_OS;
-
         } else if (os.isTv) {
             device = Device.DEFAULT_TV;
         } else if (os.isMobile && !device.isMobile && !(device.deviceType == DeviceType.TV)) {
             device = Device.DEFAULT_PHONE_SCREEN;
         }
 
-        return buildUserAgentInfo(os, browser, device, netType, deviceId);
-    }
-
-    @Deprecated
-    public String parseDotNet(String agentString) {
-        String maxVersion = "", version;
-        Matcher matcher = pattern.matcher(agentString);
-        while (matcher.find()) {
-            version = matcher.group("ver");
-            if (version.compareTo(maxVersion) > 0) {
-                maxVersion = version;
-            }
-        }
-        return maxVersion.equals("") ? DEFAULT_VALUE : maxVersion;
-    }
-
-    public String parseNetType(String agentString) {
-        Matcher matcher = netTypePattern.matcher(agentString.toUpperCase());
-        String result="";
-        if(matcher.find()){
-            result = matcher.group(1);
-        }
-        return Strings.isNullOrEmpty(result)? DEFAULT_VALUE:result;
-    }
-
-    public String parseDeviceId(String agentString){
-        Matcher matcher = deviceIdPattern.matcher(agentString.toLowerCase());
-        String result ="";
-        if(matcher.find()){
-            result=matcher.group(2);
-        }
-        return Strings.isNullOrEmpty(result) || result.length()<8 ? DEFAULT_VALUE : result;
+        return buildUserAgentInfo(os, browser, device);
     }
 
     public Device parseDevice(String agentString) {
@@ -143,7 +103,7 @@ public class Parser {
         return osParser.parse(agentString);
     }
 
-    private UserAgentInfo buildUserAgentInfo(Os os, Browser browser, Device device, String netType,String deviceId) {
+    private UserAgentInfo buildUserAgentInfo(Os os, Browser browser, Device device) {
         UserAgentInfo userAgentInfo = new UserAgentInfo();
         String detail;
 
@@ -155,7 +115,7 @@ public class Parser {
                     : os.family + " " + os.major + "." + os.minor;
         }
         userAgentInfo.setOsName(os.brand);
-        userAgentInfo.setOsDetail(detail);
+        userAgentInfo.setOs(detail);
 
         // Browser to BrowserInfo
         if (StringUtils.isEmpty(browser.major)) {
@@ -165,7 +125,7 @@ public class Parser {
                     : browser.family + " " + browser.major + "." + browser.minor;
         }
         userAgentInfo.setBrowserName(browser.brand);
-        userAgentInfo.setBrowserDetail(detail);
+        userAgentInfo.setBrowser(detail);
 
         // Device to DeviceInfo
         if (!device.brand.equalsIgnoreCase("PC") && !device.brand.equals(DEFAULT_VALUE) && !device.deviceType.equals(DeviceType.Spider)) {
@@ -176,10 +136,6 @@ public class Parser {
         userAgentInfo.setDeviceBrand(device.brand);
         userAgentInfo.setDeviceName(detail);
         userAgentInfo.setDeviceType(device.deviceType.toString());
-        userAgentInfo.setIsMobile(device.isMobile);
-
-        userAgentInfo.setNetType(netType);
-        userAgentInfo.setDeviceId(deviceId);
         return userAgentInfo;
     }
 }

@@ -38,7 +38,7 @@ public class UserAgentParserTest {
     public void testUserAgentParser() throws IOException {
         final String userAgent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.3 (KHTML, like Gecko) Chrome/6.0.472.55 Safari/534.3";
         UserAgentInfo info = parser.getUserAgentInfo(userAgent);
-        assertThat(info.getBrowserDetail().toString(), is("chrome 6.0"));
+        assertThat(info.getBrowser().toString(), is("chrome 6.0"));
     }
 
     @Test
@@ -94,8 +94,8 @@ public class UserAgentParserTest {
         String userAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0)";
         UserAgentInfo info = parser.getUserAgentInfo(userAgent);
         assertNotNull(info);
-        assertThat(info.getOsDetail().toString(), is("Windows 7"));
-        assertThat(info.getBrowserDetail().toString(), is("IE 8"));
+        assertThat(info.getOs().toString(), is("Windows 7"));
+        assertThat(info.getBrowser().toString(), is("IE 8"));
     }
 
     @Test
@@ -184,7 +184,6 @@ public class UserAgentParserTest {
         UserAgentInfo info = parser.getUserAgentInfo(uaExpr);
         assertNotNull(info);
         assertThat(info.getBrowserName().toString(), is("QQ"));
-        assertThat(info.getNetType().toString(), is("WIFI"));
     }
 
     @Test
@@ -259,7 +258,6 @@ public class UserAgentParserTest {
         String uaExpr = "Mozilla/5.0 (Linux; Android 5.1; M651CY Build/LMY47D) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/39.0.0.0 Mobile Safari/537.36 X-Tingyun-Id/p35OnrDoP8k;c=2;r=1392755971; hebao/7.0.109 NetType/wifi";
         UserAgentInfo info = parser.getUserAgentInfo(uaExpr);
         assertNotNull(info);
-        assertThat(info.getDeviceId().toString(), is("-"));
 
         uaExpr = "qqlive 5.9.0 rv:5264 (iPad; iOS 10.3.2; zh-Hans_US)";
         UserAgentInfo info1 = parser.getUserAgentInfo(uaExpr);
