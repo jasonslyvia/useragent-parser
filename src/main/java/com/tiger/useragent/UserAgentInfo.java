@@ -78,7 +78,11 @@ public class UserAgentInfo extends org.apache.avro.specific.SpecificRecordBase i
    * @param value the value to set.
    */
   public void setOsName(java.lang.CharSequence value) {
-    this.os_name = value;
+      if (value.toString().equals("Mac")) {
+          this.os_name = "macosx";
+      } else {
+          this.os_name = value.toString().toLowerCase().replaceAll("\\s+", "");
+      }
   }
 
   /**
@@ -93,7 +97,7 @@ public class UserAgentInfo extends org.apache.avro.specific.SpecificRecordBase i
    * @param value the value to set.
    */
   public void setOs(java.lang.CharSequence value) {
-    this.os = value;
+      this.os = value.toString().toLowerCase().replaceAll("\\s+", "");
   }
 
   /**
@@ -108,7 +112,7 @@ public class UserAgentInfo extends org.apache.avro.specific.SpecificRecordBase i
    * @param value the value to set.
    */
   public void setBrowserName(java.lang.CharSequence value) {
-    this.browser_name = value;
+    this.browser_name = value.toString().toLowerCase().replaceAll("\\s+", "");
   }
 
   /**
@@ -123,7 +127,7 @@ public class UserAgentInfo extends org.apache.avro.specific.SpecificRecordBase i
    * @param value the value to set.
    */
   public void setBrowser(java.lang.CharSequence value) {
-    this.browser = value;
+    this.browser = value.toString().toLowerCase().replaceAll("\\s+", "");
   }
 
   /**
@@ -138,7 +142,7 @@ public class UserAgentInfo extends org.apache.avro.specific.SpecificRecordBase i
    * @param value the value to set.
    */
   public void setDeviceBrand(java.lang.CharSequence value) {
-    this.device_brand = value;
+    this.device_brand = value.toString().toLowerCase().replaceAll("\\s+", "");
   }
 
   /**
@@ -153,7 +157,7 @@ public class UserAgentInfo extends org.apache.avro.specific.SpecificRecordBase i
    * @param value the value to set.
    */
   public void setDeviceName(java.lang.CharSequence value) {
-    this.device_name = value;
+    this.device_name = value.toString().toLowerCase().replaceAll("\\s+", "");
   }
 
   /**
@@ -168,7 +172,7 @@ public class UserAgentInfo extends org.apache.avro.specific.SpecificRecordBase i
    * @param value the value to set.
    */
   public void setDeviceType(java.lang.CharSequence value) {
-    this.device_type = value;
+    this.device_type = value.toString().toLowerCase().replaceAll("\\s+", "");
   }
 
   /**

@@ -36,7 +36,7 @@ public class UserAgentParserTest {
 
     @Test
     public void testUserAgentParser() throws IOException {
-        final String userAgent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.3 (KHTML, like Gecko) Chrome/6.0.472.55 Safari/534.3";
+        final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.1.3163.100 Safari/537.36";
         UserAgentInfo info = parser.getUserAgentInfo(userAgent);
         assertThat(info.getBrowser().toString(), is("chrome 6.0"));
     }
