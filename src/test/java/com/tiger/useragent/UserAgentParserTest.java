@@ -1,7 +1,6 @@
 package com.tiger.useragent;
 
 import com.google.common.base.Function;
-import com.google.common.base.Strings;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -38,6 +37,7 @@ public class UserAgentParserTest {
     public void testUserAgentParser() throws IOException {
         final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.1.3163.100 Safari/537.36";
         UserAgentInfo info = parser.getUserAgentInfo(userAgent);
+        String test = info.toODPSString();
         assertThat(info.getBrowser().toString(), is("chrome 6.0"));
     }
 

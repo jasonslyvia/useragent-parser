@@ -120,9 +120,12 @@ public class Parser {
         // Browser to BrowserInfo
         if (StringUtils.isEmpty(browser.major)) {
             detail = browser.family;
+        } else if (StringUtils.isEmpty(browser.minor)) {
+            detail = browser.family + " " + browser.major;
+        } else if (!StringUtils.isEmpty(browser.patch)) {
+            detail = browser.family + " " + browser.major + "." + browser.minor + "." + StringUtils.stripStart(browser.patch, ".");
         } else {
-            detail = StringUtils.isEmpty(browser.minor) ? browser.family + " " + browser.major
-                    : browser.family + " " + browser.major + "." + browser.minor;
+            detail = browser.family + " " + browser.major + "." + browser.minor;
         }
         userAgentInfo.setBrowserName(browser.brand);
         userAgentInfo.setBrowser(detail);

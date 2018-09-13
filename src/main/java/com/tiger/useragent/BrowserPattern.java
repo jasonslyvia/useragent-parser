@@ -1,6 +1,7 @@
 package com.tiger.useragent;
 
 import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -44,7 +45,7 @@ class BrowserPattern {
     }
 
     public Browser match(String uaString){
-        String family = null,major=null,minor=null;
+        String family = null,major=null,minor=null, patch=null;
         Matcher matcher = pattern.matcher(uaString.toLowerCase());
         if (!matcher.find()) {
             return null;
@@ -78,6 +79,16 @@ class BrowserPattern {
             minor = matcher.group(3);
         }
 
-        return Strings.isNullOrEmpty(family) ? null : new Browser(brand, family, major, minor);
+        if (groupCount > 3) {
+            int i = 4;
+            patch = "";
+            while (i <= groupCount) {
+                patch = patch.concat(matcher.group(i) + ".");
+                i++;
+            }
+            patch = patch.replaceAll("^\\.|\\.$", "");
+        }
+
+        return Strings.isNullOrEmpty(family) ? null : new Browser(brand, family, major, minor, patch);
     }
 }

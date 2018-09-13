@@ -3,7 +3,6 @@ package com.tiger.useragent;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

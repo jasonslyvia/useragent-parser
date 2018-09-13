@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  * email : dayingzhaolihe@126.com
  * date : 2017/5/9
  */
-public class UserAgentParser extends Parser{
+public class UserAgentParser extends Parser {
     private static final Logger logger = LoggerFactory.getLogger(UserAgentParser.class);
     private static final String CACHE_FILE = "./UserAgentCache.dat";
     private static final String CACHE_VERSION_KEY = "cache.version";
