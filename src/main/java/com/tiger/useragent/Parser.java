@@ -137,7 +137,7 @@ public class Parser {
             detail = device.family;
         }
         userAgentInfo.setDeviceBrand(device.brand);
-        userAgentInfo.setDeviceName(detail);
+        userAgentInfo.setDeviceName(device.family);
         userAgentInfo.setDeviceType(device.deviceType.toString());
         return userAgentInfo;
     }
